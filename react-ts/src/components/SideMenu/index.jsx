@@ -1,12 +1,21 @@
 import { Menu } from "antd";
-import { AppstoreOutlined, ShopOutlined, ShoppingCartOutlined, UserOutlined } from "@ant-design/icons"
+import {
+  AppstoreOutlined,
+  ShopOutlined,
+  ShoppingCartOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 function SideMenu() {
+  const navigate = useNavigate();
+
   return (
     <div className="SideMenu">
       <Menu
         onClick={(item) => {
           //item.key
+          navigate(item.key);
         }}
         items={[
           {
@@ -17,7 +26,7 @@ function SideMenu() {
           {
             label: "Inventory",
             key: "/inventory",
-            icon: <ShopOutlined />
+            icon: <ShopOutlined />,
           },
           {
             label: "Orders",
