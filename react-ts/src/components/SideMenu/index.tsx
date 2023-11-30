@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Menu } from "antd";
 import {
   AppstoreOutlined,
@@ -6,7 +6,7 @@ import {
   ShoppingCartOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 interface MenuItem {
   label: string;
@@ -15,6 +15,16 @@ interface MenuItem {
 }
 
 function SideMenu() {
+  const location = useLocation();
+  const [selectedKeys, setSelectedKeys] = useState('/')
+
+  useEffect(() => {
+    const pathName = location.pathname
+    setSelectedKeys(pathName)
+    
+  }, [location.pathname])
+
+
   const navigate = useNavigate();
 
   const menuItems: MenuItem[] = [
@@ -43,10 +53,13 @@ function SideMenu() {
   return (
     <div className="SideMenu">
       <Menu
+        className="SideMenuVertical"
+        mode="vertical"
         onClick={(item) => {
           // item.key
           navigate(item.key);
         }}
+        selectedKeys={[selectedKeys]}
         items={menuItems.map((item) => ({
           label: item.label,
           icon: item.icon,
