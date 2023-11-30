@@ -1,10 +1,20 @@
+import React, { useEffect, useState } from "react";
 import { Typography, Space, Table, Avatar, Rate } from "antd";
-import { useState, useEffect } from "react";
 import { getInventory } from "../../API";
 
+interface InventoryItem {
+  thumbnail: string;
+  title: string;
+  price: number;
+  rating: number;
+  stock: number;
+  brand: string;
+  category: string;
+}
+
 function Inventory() {
-  const [loading, setLoading] = useState(false);
-  const [dataSource, setDataSource] = useState([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [dataSource, setDataSource] = useState<InventoryItem[]>([]);
 
   useEffect(() => {
     setLoading(true);
@@ -23,9 +33,7 @@ function Inventory() {
           {
             title: "Thumbnail",
             dataIndex: "thumbnail",
-            render: (link) => {
-              return <Avatar src={link} />;
-            },
+            render: (link: string) => <Avatar src={link} />,
           },
           {
             title: "Title",
@@ -34,14 +42,12 @@ function Inventory() {
           {
             title: "Price",
             dataIndex: "price",
-            render: (value) => <span>${value}</span>,
+            render: (value: number) => <span>${value}</span>,
           },
           {
             title: "Rating",
             dataIndex: "rating",
-            render: (rating) => {
-              return <Rate value={rating} allowHalf />;
-            },
+            render: (rating: number) => <Rate value={rating} allowHalf />,
           },
           {
             title: "Stock",

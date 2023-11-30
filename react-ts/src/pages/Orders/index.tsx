@@ -1,10 +1,18 @@
+import React, { useEffect, useState } from "react";
 import { Typography, Space, Table } from "antd";
-import { useState, useEffect } from "react";
 import { getOrders } from "../../API";
 
+interface Order {
+  title: string;
+  price: number;
+  discountedPrice: number;
+  quantity: number;
+  total: number;
+}
+
 function Orders() {
-  const [loading, setLoading] = useState(false);
-  const [dataSource, setDataSource] = useState([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [dataSource, setDataSource] = useState<Order[]>([]);
 
   useEffect(() => {
     setLoading(true);
@@ -27,12 +35,12 @@ function Orders() {
           {
             title: "Price",
             dataIndex: "price",
-            render: (value) => <span>${value}</span>,
+            render: (value: number) => <span>${value}</span>,
           },
           {
             title: "DiscountedPrice",
             dataIndex: "discountedPrice",
-            render: (value) => <span>${value}</span>,
+            render: (value: number) => <span>${value}</span>,
           },
           {
             title: "Quantity",

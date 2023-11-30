@@ -1,10 +1,22 @@
+import { useEffect, useState } from "react";
 import { Typography, Space, Table, Avatar } from "antd";
-import { useState, useEffect } from "react";
 import { getCustomers } from "../../API";
 
+interface Customer {
+  image: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  address: {
+    address: string;
+    city: string;
+  };
+}
+
 function Customers() {
-  const [loading, setLoading] = useState(false);
-  const [dataSource, setDataSource] = useState([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [dataSource, setDataSource] = useState<Customer[]>([]);
 
   useEffect(() => {
     setLoading(true);
@@ -23,9 +35,7 @@ function Customers() {
           {
             title: "Photo",
             dataIndex: "image",
-            render: (link) => {
-              return <Avatar src={link} />;
-            },
+            render: (link: string) => <Avatar src={link} />,
           },
           {
             title: "First Name",
@@ -46,9 +56,11 @@ function Customers() {
           {
             title: "Address",
             dataIndex: "address",
-            render:(address) => {
-                return <span>{address.address}, {address.city}</span>
-            }
+            render: (address: { address: string; city: string }) => (
+              <span>
+                {address.address}, {address.city}
+              </span>
+            ),
           },
         ]}
         dataSource={dataSource}
