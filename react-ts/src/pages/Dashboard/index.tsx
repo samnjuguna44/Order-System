@@ -1,3 +1,4 @@
+import React from "react";
 import { Typography, Space, Card, Statistic } from "antd";
 import {
   ShoppingCartOutlined,
@@ -5,6 +6,12 @@ import {
   UserOutlined,
   ShoppingOutlined,
 } from "@ant-design/icons";
+
+interface DashboardCardProps {
+  title: string;
+  value: number;
+  icon: React.ReactNode;
+}
 
 function Dashboard() {
   return (
@@ -76,7 +83,7 @@ function Dashboard() {
   );
 }
 
-function DashboardCard({ title, value, icon }) {
+function DashboardCard({ title, value, icon }: DashboardCardProps) {
   return (
     <Card>
       <Space direction="horizontal">

@@ -1,3 +1,4 @@
+import React from "react";
 import { Image, Typography, Space, Badge } from "antd";
 import { BellFilled, MailOutlined } from "@ant-design/icons";
 import Logo from "../../assets/logo.png";
@@ -5,7 +6,7 @@ import Logo from "../../assets/logo.png";
 function AppHeader() {
   return (
     <div className="AppHeader">
-      <Image width={80} src={Logo}></Image>
+      <Image width={80} src={Logo} alt="Logo" />
       <Typography.Title>Order Management System</Typography.Title>
       <Space>
         <Badge count={10} dot>
