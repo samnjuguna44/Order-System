@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// UserDetails.tsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Descriptions, Avatar } from "antd";
+import { Descriptions, Avatar, Spin } from "antd";
 import { getCustomers } from "../../API";
+import UserMap from "../UserMap";
 
 interface Customer {
   [x: string]: any;
@@ -27,14 +29,16 @@ const UserDetails: React.FC = () => {
   useEffect(() => {
     setLoading(true);
     getCustomers().then((res) => {
-      const foundUser = res.users.find((customer) => customer.id === parseInt(userId, 10));
+      const foundUser = res.users.find(
+        (customer) => customer.id === parseInt(userId, 10)
+      );
       setUser(foundUser);
       setLoading(false);
     });
   }, [userId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Spin />;
   }
 
   if (!user) {
@@ -49,7 +53,9 @@ const UserDetails: React.FC = () => {
           <Avatar src={user.image} />
         </Descriptions.Item>
         <Descriptions.Item label="Gender">{user.gender}</Descriptions.Item>
-        <Descriptions.Item label="First Name">{user.firstName}</Descriptions.Item>
+        <Descriptions.Item label="First Name">
+          {user.firstName}
+        </Descriptions.Item>
         <Descriptions.Item label="Last Name">{user.lastName}</Descriptions.Item>
         <Descriptions.Item label="Email">{user.email}</Descriptions.Item>
         <Descriptions.Item label="Phone">{user.phone}</Descriptions.Item>
@@ -57,6 +63,8 @@ const UserDetails: React.FC = () => {
           {user.address.address}, {user.address.city}
         </Descriptions.Item>
       </Descriptions>
+      {/* UserMap component with the user's address */}
+      <UserMap address={user.address} />
     </div>
   );
 };
