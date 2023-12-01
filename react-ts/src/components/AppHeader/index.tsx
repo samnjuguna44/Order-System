@@ -30,7 +30,7 @@ function AppHeader() {
   return (
     <div className="AppHeader">
       <Image width={80} src={Logo}></Image>
-      <Typography.Title>Aamir's Dashboard</Typography.Title>
+      <Typography.Title>Order Management System</Typography.Title>
       <Space>
         <Badge count={comments.length} dot>
           <MailOutlined

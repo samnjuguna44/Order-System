@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Typography, Space, Table } from "antd";
 import { getOrders } from "../../API";
 
