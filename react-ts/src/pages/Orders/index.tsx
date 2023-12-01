@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { Typography, Space, Table } from "antd";
 import { getOrders } from "../../API";
 
 interface Order {
+  [x: string]: any;
   title: string;
   price: number;
   discountedPrice: number;
@@ -28,6 +30,13 @@ function Orders() {
       <Table
         loading={loading}
         columns={[
+          {
+            title: "Product Id",
+            dataIndex: "id",
+            sorter:(record1, record2) => {
+              return record1.id > record2.id
+            }
+          },
           {
             title: "Title",
             dataIndex: "title",

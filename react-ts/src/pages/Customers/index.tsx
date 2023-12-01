@@ -8,6 +8,8 @@ interface Customer {
   lastName: string;
   email: string;
   phone: string;
+  id: number;
+  record: string;
   address: {
     address: string;
     city: string;
@@ -36,6 +38,13 @@ function Customers() {
             title: "Photo",
             dataIndex: "image",
             render: (link: string) => <Avatar src={link} />,
+          },
+          {
+            title: "ID",
+            dataIndex: "id",
+            sorter:(record1, record2) => {
+              return record1.id > record2.id
+            }
           },
           {
             title: "First Name",
