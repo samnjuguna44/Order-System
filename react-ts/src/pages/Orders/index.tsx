@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { Typography, Space, Table } from "antd";
+import { Typography, Space, Table, InputNumber } from "antd";
 import { getOrders } from "../../API";
 
 interface Order {
@@ -15,6 +15,7 @@ interface Order {
 function Orders() {
   const [loading, setLoading] = useState<boolean>(false);
   const [dataSource, setDataSource] = useState<Order[]>([]);
+  const [totalFilter, setTotalFilter] = useState<number | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -23,6 +24,14 @@ function Orders() {
       setLoading(false);
     });
   }, []);
+
+  const handleTotalFilter = (value: number) => {
+    setTotalFilter(value);
+  };
+
+  const filteredDataSource = totalFilter
+    ? dataSource.filter((order) => order.total === totalFilter)
+    : dataSource;
 
   return (
     <Space size={20} direction="vertical">
@@ -33,9 +42,9 @@ function Orders() {
           {
             title: "Product Id",
             dataIndex: "id",
-            sorter:(record1, record2) => {
-              return record1.id > record2.id
-            }
+            sorter: (record1, record2) => {
+              return record1.id > record2.id ? 1 : -1;
+            },
           },
           {
             title: "Title",
@@ -58,13 +67,29 @@ function Orders() {
           {
             title: "Total",
             dataIndex: "total",
+            filterDropdown: () => (
+              <div style={{ padding: 8 }}>
+                <InputNumber
+                  placeholder="Enter total"
+                  style={{ width: 120 }}
+                  onChange={handleTotalFilter}
+                  value={totalFilter}
+                />
+              </div>
+            ),
+            filterIcon: () => (
+              <span role="img" aria-label="filter">
+                🔍
+              </span>
+            ),
+            onFilter: (value, record) => record.total === value,
           },
         ]}
-        dataSource={dataSource}
+        dataSource={filteredDataSource}
         pagination={{
           pageSize: 5,
         }}
-      ></Table>
+      />
     </Space>
   );
 }
