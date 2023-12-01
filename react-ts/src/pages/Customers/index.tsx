@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { Typography, Space, Table, Avatar } from "antd";
+import { Typography, Space, Table, Avatar, Select } from "antd";
 import { getCustomers } from "../../API";
 
 interface Customer {
+  [x: string]: any;
   image: string;
   firstName: string;
   lastName: string;
@@ -16,9 +18,12 @@ interface Customer {
   };
 }
 
+const { Option } = Select;
+
 function Customers() {
   const [loading, setLoading] = useState<boolean>(false);
   const [dataSource, setDataSource] = useState<Customer[]>([]);
+  const [genderFilter, setGenderFilter] = useState<string | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -27,6 +32,14 @@ function Customers() {
       setLoading(false);
     });
   }, []);
+
+  const handleGenderFilter = (value: string) => {
+    setGenderFilter(value);
+  };
+
+  const filteredDataSource = genderFilter
+    ? dataSource.filter((customer) => customer.gender === genderFilter)
+    : dataSource;
 
   return (
     <Space size={20} direction="vertical">
@@ -42,9 +55,31 @@ function Customers() {
           {
             title: "ID",
             dataIndex: "id",
-            sorter:(record1, record2) => {
-              return record1.id > record2.id
-            }
+            sorter: (record1, record2) => {
+              return record1.id > record2.id ? 1 : -1;
+            },
+          },
+          {
+            title: "Gender",
+            dataIndex: "gender",
+            filterDropdown: () => (
+              <div style={{ padding: 8 }}>
+                <Select
+                  style={{ width: 120 }}
+                  onChange={handleGenderFilter}
+                  value={genderFilter}
+                >
+                  <Option value="male">Male</Option>
+                  <Option value="female">Female</Option>
+                </Select>
+              </div>
+            ),
+            filterIcon: () => (
+              <span role="img" aria-label="filter">
+                🔍
+              </span>
+            ),
+            onFilter: (value, record) => record.gender === value,
           },
           {
             title: "First Name",
@@ -72,11 +107,11 @@ function Customers() {
             ),
           },
         ]}
-        dataSource={dataSource}
+        dataSource={filteredDataSource}
         pagination={{
           pageSize: 5,
         }}
-      ></Table>
+      />
     </Space>
   );
 }
