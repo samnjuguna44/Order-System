@@ -14,7 +14,7 @@ interface UserMapProps {
 const UserMap: React.FC<UserMapProps> = ({ address }) => {
   const { city, address: userAddress } = address;
 
-  // For simplicity, you can use OpenStreetMap for the map
+  // usage of OpenStreetMap for the map
   const tileLayerURL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
   return (

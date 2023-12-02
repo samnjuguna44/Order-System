@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// Customers.tsx
 import React, { useEffect, useState } from "react";
 import { Typography, Space, Table, Avatar, Select } from "antd";
 import { Link } from "react-router-dom";

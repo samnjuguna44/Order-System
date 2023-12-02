@@ -5,11 +5,14 @@ import { getOrders } from "../../API";
 
 interface Order {
   [x: string]: any;
+  id: number;
   title: string;
   price: number;
   discountedPrice: number;
   quantity: number;
   total: number;
+  deliveryLocation: string;
+  name: string;
 }
 
 function Orders() {
@@ -20,7 +23,12 @@ function Orders() {
   useEffect(() => {
     setLoading(true);
     getOrders().then((res) => {
-      setDataSource(res.products);
+      const updatedDataSource = res.products.map((order) => ({
+        ...order,
+        deliveryLocation: getDeliveryLocation(order.id),
+        name: getProductName(order.id),
+      }));
+      setDataSource(updatedDataSource);
       setLoading(false);
     });
   }, []);
@@ -33,6 +41,30 @@ function Orders() {
     ? dataSource.filter((order) => order.total === totalFilter)
     : dataSource;
 
+  const getDeliveryLocation = (productId: number): string => {
+    const addresses = [
+      "150 Carter Street, Manchester",
+      "150 Carter Street, Manchester",
+      "150 Carter Street, Manchester",
+      "150 Carter Street, Manchester",
+      "150 Carter Street, Manchester",
+    ];
+    const index = (productId - 1) % addresses.length;
+    return addresses[index];
+  };
+
+  const getProductName = (productId: number): string => {
+    const names = [
+      "Marcus Big",
+      "Dwight Wade",
+      "Marion Helsing",
+      "Lionel Goat",
+      "Samantha Young",
+    ];
+    const index = (productId - 1) % names.length;
+    return names[index];
+  };
+
   return (
     <Space size={20} direction="vertical">
       <Typography.Title level={4}>Orders</Typography.Title>
@@ -42,9 +74,11 @@ function Orders() {
           {
             title: "Product Id",
             dataIndex: "id",
-            sorter: (record1, record2) => {
-              return record1.id > record2.id ? 1 : -1;
-            },
+            sorter: (record1, record2) => record1.id - record2.id,
+          },
+          {
+            title: "Name",
+            dataIndex: "name",
           },
           {
             title: "Title",
@@ -83,6 +117,10 @@ function Orders() {
               </span>
             ),
             onFilter: (value, record) => record.total === value,
+          },
+          {
+            title: "Delivery Location",
+            dataIndex: "deliveryLocation",
           },
         ]}
         dataSource={filteredDataSource}
