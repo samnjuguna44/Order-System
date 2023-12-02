@@ -19,15 +19,15 @@ const UserMap: React.FC<UserMapProps> = ({ address }) => {
 
   return (
     <MapContainer
-      center={[0, 0]}
-      zoom={13}
+      center={[38.867033, -76.979235]}
+      zoom={5}
       style={{ height: "300px", width: "100%" }}
     >
       <TileLayer
         url={tileLayerURL}
         attribution="&copy; OpenStreetMap contributors"
       />
-      <Marker position={[0, 0]}>
+      <Marker position={[38.867033, -76.979235]}>
         <Popup>
           {userAddress}, {city}
         </Popup>

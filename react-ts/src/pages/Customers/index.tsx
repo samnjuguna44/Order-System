@@ -5,6 +5,11 @@ import { Typography, Space, Table, Avatar, Select } from "antd";
 import { Link } from "react-router-dom";
 import { getCustomers } from "../../API";
 
+interface Address {
+  address: string;
+  city: string;
+}
+
 interface Customer {
   [x: string]: any;
   image: string;
@@ -14,10 +19,7 @@ interface Customer {
   phone: string;
   id: number;
   record: string;
-  address: {
-    address: string;
-    city: string;
-  };
+  address: Address;
 }
 
 const { Option } = Select;
@@ -98,7 +100,7 @@ const Customers: React.FC = () => {
     {
       title: "Address",
       dataIndex: "address",
-      render: (address: { address: string; city: string }) => (
+      render: (address: Address) => (
         <span>
           {address.address}, {address.city}
         </span>
