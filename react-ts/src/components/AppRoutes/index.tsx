@@ -5,6 +5,7 @@ import Orders from "../../pages/Orders";
 import Customers from "../../pages/Customers";
 import UserDetails from "../UserDetails";
 
+
 function AppRoutes() {
   return (
     <Routes>
